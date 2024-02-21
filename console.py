@@ -3,7 +3,7 @@
 import cmd
 import sys
 from models.base_model import BaseModel
-from models._init_ import storage
+from models import storage
 from models.user import User
 from models.place import Place
 from models.state import State
@@ -17,7 +17,7 @@ class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
 
     # determines prompt for interactive/non-interactive modes
-    prompt = '(hbnb) ' if sys._stdin_.isatty() else ''
+    prompt = '(hbnb) ' if sys.stdin.isatty() else ''
 
     classes = {
         'BaseModel': BaseModel, 'User': User, 'Place': Place,
@@ -33,7 +33,7 @@ class HBNBCommand(cmd.Cmd):
 
     def preloop(self):
         """Prints if isatty is false"""
-        if not sys._stdin_.isatty():
+        if not sys.stdin.isatty():
             print('(hbnb)')
 
     def precmd(self, line):
@@ -89,7 +89,7 @@ class HBNBCommand(cmd.Cmd):
 
     def postcmd(self, stop, line):
         """Prints if isatty is false"""
-        if not sys._stdin_.isatty():
+        if not sys.stdin.isatty():
             print('(hbnb) ', end='')
         return stop
 
@@ -221,11 +221,11 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage.FileStorage_objects.items():
+            for k, v in storage.all().items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            for k, v in storage.FileStorage_objects.items():
+            for k, v in storage.all().items():
                 print_list.append(str(v))
 
         print('\n'.join(print_list))
@@ -336,5 +336,5 @@ class HBNBCommand(cmd.Cmd):
         print("Usage: update <className> <id> <attName> <attVal>\n")
 
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     HBNBCommand().cmdloop()
