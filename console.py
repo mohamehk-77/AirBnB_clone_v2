@@ -117,45 +117,29 @@ class HBNBCommand(cmd.Cmd):
     import shlex
 
     def do_create(self, arg):
-        """Creates a new object of the specified class with given parameters."""
-
         args = shlex.split(arg)
-
         if len(args) < 1:
             print("** class name missing **")
-            return
-
-        class_name = args[0]
-        if class_name not in self.classes:
+        elif args[0] not in self.classes:
             print("** class doesn't exist **")
-            return
+        else:
+            new_dict = {}
+            for i in range(1, len(args)):
+                try:
+                    key, value = args[i].split('=')
+                    if value[0] == '"' and value[-1] == '"':
+                        value = value.replace('_', ' ').replace('\\"', '"')[1:-1]
+                    elif '.' in value:
+                        value = float(value)
+                    else:
+                        value = int(value)
+                    new_dict[key] = value
+                except:
+                    pass
+            new_instance = self.classes[args[0]](**new_dict)
+            new_instance.save()
+            print(new_instance.id)
 
-    # Parse parameters
-        new_dict = {}
-        for i in range(1, len(args)):
-            try:
-                key, value = args[i].split("=")
-
-                # Handle string values
-                if value[0] == '"' and value[-1] == '"':
-                    value = value.replace('_', ' ').replace('\\"', '"')[1:-1]
-
-            # Handle float values
-                elif '.' in value:
-                    value = float(value)
-
-            # Handle integer values
-                else:
-                    value = int(value)
-
-                new_dict[key] = value
-            except ValueError:
-                pass
-
-    # Create new object and save it
-        new_instance = self.classes[class_name](**new_dict)
-        new_instance.save()
-        print(new_instance.id)
 
     def help_create(self):
         """ Help information for the create method """
@@ -353,4 +337,5 @@ class HBNBCommand(cmd.Cmd):
 
 
 if __name__ == "__main__":
+    storage.clear()
     HBNBCommand().cmdloop()
