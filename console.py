@@ -21,16 +21,16 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
 
     classes = {
-               'BaseModel': BaseModel, 'User': User, 'Place': Place,
-               'State': State, 'City': City, 'Amenity': Amenity,
-               'Review': Review
-              }
+        'BaseModel': BaseModel, 'User': User, 'Place': Place,
+        'State': State, 'City': City, 'Amenity': Amenity,
+        'Review': Review
+    }
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
-             'number_rooms': int, 'number_bathrooms': int,
-             'max_guest': int, 'price_by_night': int,
-             'latitude': float, 'longitude': float
-            }
+        'number_rooms': int, 'number_bathrooms': int,
+        'max_guest': int, 'price_by_night': int,
+        'latitude': float, 'longitude': float
+    }
 
     def preloop(self):
         """Prints if isatty is false"""
@@ -75,8 +75,13 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
+<<<<<<< HEAD
                     if pline[0] == '{' and pline[-1] == '}'\
                             and type(eval(pline)) == dict:
+=======
+                    if pline[0] is '{' and pline[-1] is '}'\
+                            and type(eval(pline)) is dict:
+>>>>>>> e4142f677c491ab1672c5d9cf9a4624e03602a89
                         _args = pline
                     else:
                         _args = pline.replace(',', '')
@@ -115,6 +120,7 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
+<<<<<<< HEAD
     def do_create(self, arg):
         args = shlex.split(arg)
         if len(args) < 1:
@@ -139,6 +145,30 @@ class HBNBCommand(cmd.Cmd):
             new_instance.save()
             print(new_instance.id)
 
+=======
+    def do_create(self, args):
+    """Create an object of any class with given parameters"""
+    if not args:
+        print("** class name missing **")
+        return
+    args_list = args.split()
+    class_name = args_list.pop(0)  # Extract class name from args
+    if class_name not in self.classes:
+        print("** class doesn't exist **")
+        return
+    kwargs = {}
+    for arg in args_list:
+        if '=' in arg:  # Check if argument has the format key=value
+            key, value = arg.split('=')
+            # Handle conversion of values based on types defined in self.types
+            if key in self.types:
+                value = self.types[key](value)
+            kwargs[key] = value
+    new_instance = self.classes[class_name](**kwargs)  # Create an instance of the class
+    new_instance.save()  # Save the new instance
+    print(new_instance.id)  # Print the ID of the new instanc 
+    
+>>>>>>> e4142f677c491ab1672c5d9cf9a4624e03602a89
     def help_create(self):
         """ Help information for the create method """
         print("Creates a class of any type")
@@ -200,7 +230,7 @@ class HBNBCommand(cmd.Cmd):
         key = c_name + "." + c_id
 
         try:
-            del(storage.all()[key])
+            del (storage.all()[key])
             storage.save()
         except KeyError:
             print("** no instance found **")
@@ -332,6 +362,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
