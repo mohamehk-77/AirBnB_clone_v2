@@ -175,8 +175,3 @@ Usage: <class_name>.update(<_id>, <dictionary>)
 
 * do cerate
 * do cerate help
-
-## fix again
-
-* sql
-* clone
