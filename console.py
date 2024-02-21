@@ -75,13 +75,11 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-<<<<<<< HEAD
                     if pline[0] == '{' and pline[-1] == '}'\
                             and type(eval(pline)) == dict:
 =======
                     if pline[0] is '{' and pline[-1] is '}'\
                             and type(eval(pline)) is dict:
->>>>>>> e4142f677c491ab1672c5d9cf9a4624e03602a89
                         _args = pline
                     else:
                         _args = pline.replace(',', '')
@@ -120,7 +118,6 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-<<<<<<< HEAD
     def do_create(self, arg):
         args = shlex.split(arg)
         if len(args) < 1:
@@ -145,7 +142,6 @@ class HBNBCommand(cmd.Cmd):
             new_instance.save()
             print(new_instance.id)
 
-=======
     def do_create(self, args):
     """Create an object of any class with given parameters"""
     if not args:
@@ -168,7 +164,6 @@ class HBNBCommand(cmd.Cmd):
     new_instance.save()  # Save the new instance
     print(new_instance.id)  # Print the ID of the new instanc 
     
->>>>>>> e4142f677c491ab1672c5d9cf9a4624e03602a89
     def help_create(self):
         """ Help information for the create method """
         print("Creates a class of any type")
