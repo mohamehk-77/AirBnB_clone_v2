@@ -114,14 +114,14 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    import shlex
-
     def do_create(self, arg):
         args = shlex.split(arg)
         if len(args) < 1:
             print("** class name missing **")
+            return
         elif args[0] not in self.classes:
             print("** class doesn't exist **")
+            return
         else:
             new_dict = {}
             for i in range(1, len(args)):
@@ -129,17 +129,18 @@ class HBNBCommand(cmd.Cmd):
                     key, value = args[i].split('=')
                     if value[0] == '"' and value[-1] == '"':
                         value = value.replace('_', ' ').replace('\\"', '"')[1:-1]
-                    elif '.' in value:
-                        value = float(value)
                     else:
-                        value = int(value)
+                        try:
+                            value = eval(value)
+                        except (SyntaxError, NameError):
+                            continue
                     new_dict[key] = value
                 except:
                     pass
             new_instance = self.classes[args[0]](**new_dict)
-            new_instance.save()
+            storage.new(new_instance)
             print(new_instance.id)
-
+            new_instance.save()
 
     def help_create(self):
         """ Help information for the create method """
@@ -334,6 +335,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
