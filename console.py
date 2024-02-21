@@ -230,6 +230,7 @@ class HBNBCommand(cmd.Cmd):
 
         print('\n'.join(print_list))
 
+
     def help_all(self):
         """ Help information for the all command """
         print("Shows all objects, or all of a class")
@@ -262,7 +263,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
 
-        # isolate id from args
+        # isolate id from args  
         args = args[2].partition(" ")
         if args[0]:
             c_id = args[0]
