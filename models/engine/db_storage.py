@@ -43,7 +43,7 @@ class DBStorage:
                 key = "{}.{}".format(type(q).__name__, q.id)
                 dc[key] = q
         else:
-            ls = [State, City, User]
+            ls = [State, City, User, Place]
             for c in ls:
                 query = self.__session.query(c)
                 for q in query:
