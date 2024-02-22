@@ -28,16 +28,17 @@ class BaseModel:
 
     def __str__(self):
         """Returns a string representation of the instance"""
-        return "[[{}]] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
+        return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
-        from models import storage  # Move this line here
+        from models import storage
         self.updated_at = datetime.now()
+        storage.new(self)
         storage.save()
 
     def to_dict(self):
-        """Convert instance into dict format"""
+        """creates dictionary of the class  and returns"""
         my_dict = dict(self.__dict__)
         my_dict["__class__"] = str(type(self).__name__)
         my_dict["created_at"] = self.created_at.isoformat()
@@ -47,9 +48,6 @@ class BaseModel:
         return my_dict
 
     def delete(self):
-        """ delete object """
-        models.storage.delete(self)
-
-    def close(self):
-        """ calls reload() """
-        self.reload()
+        """ delete object"""
+        from models import storage
+        storage.delete(self)
