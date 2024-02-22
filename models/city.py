@@ -6,7 +6,6 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 
 
-
 class City(BaseModel, Base):
     """Define city class"""
     __tablename__ = "cities"
