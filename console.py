@@ -20,16 +20,16 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) ' if sys.stdin.isatty() else ''
 
     classes = {
-               'BaseModel': BaseModel, 'User': User, 'Place': Place,
-               'State': State, 'City': City, 'Amenity': Amenity,
-               'Review': Review
-              }
+        'BaseModel': BaseModel, 'User': User, 'Place': Place,
+        'State': State, 'City': City, 'Amenity': Amenity,
+        'Review': Review
+    }
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
-             'number_rooms': int, 'number_bathrooms': int,
-             'max_guest': int, 'price_by_night': int,
-             'latitude': float, 'longitude': float
-            }
+        'number_rooms': int, 'number_bathrooms': int,
+        'max_guest': int, 'price_by_night': int,
+        'latitude': float, 'longitude': float
+    }
 
     def preloop(self):
         """Prints if isatty is false"""
@@ -74,7 +74,7 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if pline[0] == '{' and pline[-1] =='}'\
+                    if pline[0] == '{' and pline[-1] == '}'\
                             and type(eval(pline)) == dict:
                         _args = pline
                     else:
@@ -114,32 +114,26 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    import shlex
-
-    def do_create(self, arg):
-        args = shlex.split(arg)
-        if len(args) < 1:
+    def do_create(self, args):
+        """ Create an object of any class"""
+        try:
+            if not args:
+                raise SyntaxError()
+            A_L = args.split(" ")
+            kw = {}
+            for a in A_L[1:]:
+                A_S = a.split("=")
+                A_S[1] = eval(A_S[1])
+                if type(A_S[1]) is str:
+                    A_S[1] = A_S[1].replace("_", " ").replace('"', '\\"')
+                kw[A_S[0]] = A_S[1]
+        except SyntaxError:
             print("** class name missing **")
-        elif args[0] not in self.classes:
+        except NameError:
             print("** class doesn't exist **")
-        else:
-            new_dict = {}
-            for i in range(1, len(args)):
-                try:
-                    key, value = args[i].split('=')
-                    if value[0] == '"' and value[-1] == '"':
-                        value = value.replace('_', ' ').replace('\\"', '"')[1:-1]
-                    elif '.' in value:
-                        value = float(value)
-                    else:
-                        value = int(value)
-                    new_dict[key] = value
-                except:
-                    pass
-            new_instance = self.classes[args[0]](**new_dict)
-            new_instance.save()
-            print(new_instance.id)
-
+        new_instance = HBNBCommand.classes[A_L[0]](**kw)
+        new_instance.save()
+        print(new_instance.id)
 
     def help_create(self):
         """ Help information for the create method """
@@ -222,8 +216,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
                 return
             for k, v in storage.all().items():
-                if k.split('.')[0] == args:
-                    print_list.append(str(v))
+                print_list.append(str(v))
         else:
             for k, v in storage.all().items():
                 print_list.append(str(v))
