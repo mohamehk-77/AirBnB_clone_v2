@@ -43,7 +43,7 @@ class DBStorage:
                 key = "{}.{}".format(type(q).__name__, q.id)
                 dc[key] = q
         else:
-            ls = [State, City]
+            ls = [State, City, User]
             for c in ls:
                 query = self.__session.query(c)
                 for q in query:
@@ -72,6 +72,6 @@ class DBStorage:
     def reload(self):
         """configuration"""
         Base.metadata.create_all(self.__engine)
-        sec = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        Session = scoped_session(sec)
+        S = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        Session = scoped_session(S)
         self.__session = Session()
