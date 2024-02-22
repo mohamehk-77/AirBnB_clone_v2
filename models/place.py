@@ -6,8 +6,11 @@ from models.amenity import Amenity
 
 metadata = Base.metadata
 place_amenity = Table('place_amenity', metadata,
-                      Column('place_id', String(60), ForeignKey('places.id'), primary_key=True, nullable=False),
-                      Column('amenity_id', String(60), ForeignKey('amenities.id'), primary_key=True, nullable=False)
+                      Column('place_id', String(60), ForeignKey('places.id'),
+                             primary_key=True, nullable=False),
+                      Column('amenity_id', String(60), ForeignKey
+                             ('amenities.id'), primary_key=True,
+                             nullable=False)
 )
 
 
@@ -24,16 +27,19 @@ class Place(BaseModel, Base):
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
     reviews = relationship("Review", backref="place", cascade="all, delete")
-    amenities = relationship("Amenity", secondary=place_amenity, viewonly=False)
+    amenities = relationship("Amenity", secondary=place_amenity,
+                             viewonly=False)
     amenity_ids = []
 
     @property
     def reviews(self):
         from models.review import Review
         from models import storage
-        """Returns the list of Review instances with place_id equals to the current Place.id"""
+        """Returns the list of Review instances with
+        place_id equals to the current Place.id"""
         all_reviews = storage.all(Review)
-        place_reviews = [review for review in all_reviews.values() if review.place_id == self.id]
+        place_reviews = [review for review in all_reviews.values()
+                         if review.place_id == self.id]
         return place_reviews
 
     @property
@@ -45,6 +51,7 @@ class Place(BaseModel, Base):
     @amenities.setter
     def amenities(self, obj):
         from models.amenity import Amenity
-        """Handles append method for adding an Amenity.id to the attribute amenity_ids"""
+        """Handles append method for adding an Amenity.id
+        to the attribute amenity_ids"""
         if type(obj) is Amenity:
             self.amenity_ids.append(obj.id)
