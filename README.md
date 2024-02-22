@@ -62,13 +62,13 @@ Advanced syntax is implemented for the following commands:
 
     * all - Shows all objects the program has access to, or all objects of a given class
 
- * count - Return number of object instances by class
+* count - Return number of object instances by class
 
-    * show - Shows an object based on class and UUID
+  * show - Shows an object based on class and UUID
 
- * destroy - Destroys an object based on class and UUID
+* destroy - Destroys an object based on class and UUID
 
-    * update - Updates existing attributes an object based on class name and UUID
+  * update - Updates existing attributes an object based on class name and UUID
 
 <br>
 <br>
@@ -173,4 +173,5 @@ Usage: <class_name>.update(<_id>, <dictionary>)
 
 ## Hint
 
-- do cerate
+* do cerate
+* do cerate help
