@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# models/place.py
 from sqlalchemy import Table, Column, String, ForeignKey, Integer, Float
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
@@ -29,7 +30,6 @@ class Place(BaseModel, Base):
     reviews = relationship("Review", backref="place", cascade="all, delete")
     amenities = relationship("Amenity", secondary=place_amenity,
                              viewonly=False)
-    amenity_ids = []
 
     @property
     def reviews(self):
@@ -54,4 +54,4 @@ class Place(BaseModel, Base):
         """Handles append method for adding an Amenity.id
         to the attribute amenity_ids"""
         if type(obj) is Amenity:
-            self.amenity_ids.append(obj.id)
+            self.amenities.append(obj)
