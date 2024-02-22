@@ -1,6 +1,15 @@
-from sqlalchemy import Column, String, Integer, Float, ForeignKey
-from models.base_model import BaseModel, Base
+#!/usr/bin/python3
+from sqlalchemy import Table, Column, String, ForeignKey, Integer, Float
 from sqlalchemy.orm import relationship
+from models.base_model import BaseModel, Base
+from models.amenity import Amenity
+
+metadata = Base.metadata
+place_amenity = Table('place_amenity', metadata,
+                      Column('place_id', String(60), ForeignKey('places.id'), primary_key=True, nullable=False),
+                      Column('amenity_id', String(60), ForeignKey('amenities.id'), primary_key=True, nullable=False)
+)
+
 
 class Place(BaseModel, Base):
     __tablename__ = 'places'
@@ -15,6 +24,8 @@ class Place(BaseModel, Base):
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
     reviews = relationship("Review", backref="place", cascade="all, delete")
+    amenities = relationship("Amenity", secondary=place_amenity, viewonly=False)
+    amenity_ids = []
 
     @property
     def reviews(self):
@@ -24,3 +35,16 @@ class Place(BaseModel, Base):
         all_reviews = storage.all(Review)
         place_reviews = [review for review in all_reviews.values() if review.place_id == self.id]
         return place_reviews
+
+    @property
+    def amenities(self):
+        """Returns the list of Amenity instances with place_id equals to the Place.id"""
+        from models import storage
+        return [storage.get(Amenity, id) for id in self.amenity_ids]
+
+    @amenities.setter
+    def amenities(self, obj):
+        from models.amenity import Amenity
+        """Handles append method for adding an Amenity.id to the attribute amenity_ids"""
+        if type(obj) is Amenity:
+            self.amenity_ids.append(obj.id)
