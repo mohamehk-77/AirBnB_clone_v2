@@ -175,3 +175,7 @@ Usage: <class_name>.update(<_id>, <dictionary>)
 
 * do cerate
 * do cerate help
+* test 1
+* test 2
+* test 3
+* test 4
