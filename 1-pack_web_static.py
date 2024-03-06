@@ -20,6 +20,6 @@ def do_pack():
             local("tar -cvzf versions/web_static_{}.tgz web_static"
                   .format(Date_And_Time))
             local("chmod 660 {}".format(Archive_Path))
-            return "versions/web_static_{}.tgz".format(Date_And_Time)
+            return Archive_Path
     except:
         return None
