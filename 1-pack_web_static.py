@@ -19,5 +19,5 @@ def do_pack():
             local("tar -cvzf versions/web_static_{}.tgz web_static"
                   .format(Date_And_Time))
             return "versions/web_static_{}.tgz".format(Date_And_Time)
-    except Exception:
+    except:
         return None
