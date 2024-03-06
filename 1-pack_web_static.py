@@ -16,8 +16,10 @@ def do_pack():
             os.mkdir("versions")
             Now = datetime.now()
             Date_And_Time = Now.strftime("%Y%m%d%H%M%S")
+            Archive_Path = "versions/web_static_{}.tgz".format(Date_And_Time)
             local("tar -cvzf versions/web_static_{}.tgz web_static"
                   .format(Date_And_Time))
+            local("chmod 660 {}".format(Archive_Path))
             return "versions/web_static_{}.tgz".format(Date_And_Time)
     except:
         return None
