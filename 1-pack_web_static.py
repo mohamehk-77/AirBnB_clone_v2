@@ -8,6 +8,7 @@ from datetime import datetime
 
 
 def do_pack():
+    """Function  to pack static files into an archive."""
     try:
         if not os.path.exists('versions'):
             os.mkdir("versions")
