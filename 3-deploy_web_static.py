@@ -8,6 +8,8 @@ from os.path import isdir
 from fabric.api import local, put, run, env
 from datetime import datetime
 from os.path import exists
+env.hosts = ['100.26.173.131', '54.90.9.164']
+
 
 def do_pack():
     """Function  to pack static files into an archive."""
@@ -54,16 +56,8 @@ def do_deploy(archive_path):
         return False
 
 
-
 def deploy():
-    """
-    Main deployment function.
-    """
     archive_path = do_pack()
-    if not archive_path:
+    if archive_path is None:
         return False
     return do_deploy(archive_path)
-
-
-if __name__ == "__main__":
-    deploy()
