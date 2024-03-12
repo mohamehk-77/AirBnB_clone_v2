@@ -66,6 +66,7 @@ which means we cannot use Django templates or any other Django specific features
 This limitation is due to the fact that Django is not installed as part of this project.
 Instead, only Flask (and its testing utilities) are used.</s>
 
+
 ## Authors
 
 - ENG. Mohamed Kamal
