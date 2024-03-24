@@ -11,7 +11,8 @@ class FileStorage:
     def all(self, cls=None):
         """returns a dictionary of models currently in storage"""
         if cls:
-            return {k: v for k, v in self.__objects.items() if type(v).__name__ == cls.__name__}
+            return {k: v for k, v in self.__objects.items()
+                    if type(v).__name__ == cls.__name__}
         return self.__objects
 
     def new(self, obj):
@@ -44,3 +45,7 @@ class FileStorage:
                     self.__objects[key] = value
         except FileNotFoundError:
             pass
+
+    def close(self):
+        """deserializes the JSON file to objects"""
+        self.reload()

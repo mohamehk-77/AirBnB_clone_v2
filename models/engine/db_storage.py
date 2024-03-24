@@ -59,7 +59,6 @@ class DBStorage:
         """add a new element to the table"""
         self.__session.add(obj)
 
-
     def delete(self, obj=None):
         """delete an element from the table"""
         if obj:
@@ -67,7 +66,10 @@ class DBStorage:
 
     def close(self):
         """ close method"""
-        self.__session.close()
+        if hasattr(self.__session, "remove"):
+            self.__session.remove()
+        elif hasattr(self.__session, "close"):
+            self.__session.close()
 
     def reload(self):
         """configuration"""
