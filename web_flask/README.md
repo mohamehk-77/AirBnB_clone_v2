@@ -1,7 +1,9 @@
 # web flask
 
 backend
-├── app.py                   - main application file
+├── app.py
+└── templates - main application file
+├── index.html    - home page  template
 │   └── __init__.py         - makes the module executable
 ├── templates               - directory for HTML templates
 │    └── index.html        - home page template
@@ -17,4 +19,5 @@ backend
 │
 ├── README.md              -     this documentation file
 └── requirements.txt        - list of Python dependencies
+
 ![alt text](image.png)
