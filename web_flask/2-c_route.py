@@ -1,33 +1,27 @@
 #!/usr/bin/python3
-
-"""Script that starts a Flask web application"""
-
+"""script that starts a Flask web application"""
 from flask import Flask
-
 app = Flask(__name__)
 
 
-@app.route('/', strict_slashes=False)  # Corrected typo
-def home():
-    """Home function"""
+@app.route('/', strict_slashes=False)
+def hello():
+    """Hello Function"""
     return "Hello HBNB!"
 
 
-@app.route('/hbnb', strict_slashes=False)  # Corrected typo
+@app.route('/hbnb', strict_slashes=False)
 def hbnb():
-    """HBNB route"""
+    """Function To Display HBNB"""
     return "HBNB"
 
 
 @app.route('/c/<text>', strict_slashes=False)
-def add_context(text):
-    """
-    This function takes text as input, replaces underscores (_) with spaces,
-    and returns a formatted string with 'c ' prepended.
-    """
+def text(text):
+    """Function To Display Text After C"""
     text = text.replace("_", " ")
-    return "c {}".format(text)
+    return "C {}".format(text)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
